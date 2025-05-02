@@ -8,21 +8,15 @@
 function convertToObject(sourceString) {
   const rawCssStylesArray = sourceString
     .split(';')
-    .map((str) => str.trim())
-    .filter((item) => item.length > 0);
+    .filter((str) => str.trim() !== '');
 
-  const cssStylesPairsKeyPlusValue = rawCssStylesArray
-    .map((str) => str.split(':').filter((item) => item !== ''))
-    .map(([key, value]) => [key.trim(), value.trim()]);
+  const cssStylesObject = rawCssStylesArray.reduce((acc, str) => {
+    const [key, value] = str.split(':');
 
-  const cssStylesObject = cssStylesPairsKeyPlusValue.reduce(
-    (acc, [key, value]) => {
-      acc[key] = value;
+    acc[key.trim()] = value.trim();
 
-      return acc;
-    },
-    {},
-  );
+    return acc;
+  }, {});
 
   return cssStylesObject;
 }
