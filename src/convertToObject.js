@@ -11,9 +11,11 @@ function convertToObject(sourceString) {
     .filter((str) => str.trim() !== '');
 
   const cssStylesObject = rawCssStylesArray.reduce((acc, str) => {
-    const [key, value] = str.split(':');
+    const separator = str.indexOf(':');
+    const key = str.slice(0, separator).trim();
+    const value = str.slice(separator + 1).trim();
 
-    acc[key.trim()] = value.trim();
+    acc[key] = value;
 
     return acc;
   }, {});
